@@ -1,7 +1,9 @@
 package controllers;
 
 import play.data.Form;
+
 import play.data.FormFactory;
+
 import play.mvc.Controller;
 
 import play.mvc.Result;
@@ -44,9 +46,11 @@ public class BooksController extends Controller {
     //Add a single book
     public Result edit(Integer id) {
         Book book = Book.findById(id);
-        if (book==null) {
+
+        if (book == null) {
             return notFound("Book not found");
         }
+
         Form<Book> bookForm = formFactory.form(Book.class).fill(book);
 
         return ok(edit.render(bookForm));
@@ -58,7 +62,7 @@ public class BooksController extends Controller {
         Book book = formFactory.form(Book.class).bindFromRequest().get();
         Book oldBook = Book.findById(book.id);
 
-        if (oldBook==null) {
+        if (oldBook == null) {
             return notFound("Book not found");
         }
 
@@ -71,17 +75,25 @@ public class BooksController extends Controller {
 
     //Delete books
     public Result destroy(Integer id) {
-        return TODO;
+        Book book = Book.findById(id);
+
+        if (book == null) {
+            return notFound("Book not found");
+        }
+
+        Book.remove(book);
+
+        return redirect(routes.BooksController.index());
     }
 
     //For book details
     public Result show(Integer id) {
         Book book = Book.findById(id);
-        if (book==null) {
+
+        if (book == null) {
             return notFound("Book not found");
         }
 
         return ok(show.render(book));
     }
-
 }
