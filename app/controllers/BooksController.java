@@ -55,7 +55,18 @@ public class BooksController extends Controller {
 
     //Update edited books
     public Result update() {
-        return TODO;
+        Book book = formFactory.form(Book.class).bindFromRequest().get();
+        Book oldBook = Book.findById(book.id);
+
+        if (oldBook==null) {
+            return notFound("Book not found");
+        }
+
+        oldBook.title = book.title;
+        oldBook.author = book.author;
+        oldBook.price = book.price;
+
+        return redirect(routes.BooksController.index());
     }
 
     //Delete books
