@@ -43,7 +43,13 @@ public class BooksController extends Controller {
 
     //Add a single book
     public Result edit(Integer id) {
-        return TODO;
+        Book book = Book.findById(id);
+        if (book==null) {
+            return notFound("Book not found");
+        }
+        Form<Book> bookForm = formFactory.form(Book.class).fill(book);
+
+        return ok(edit.render(bookForm));
     }
 
 
